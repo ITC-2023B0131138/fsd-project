@@ -1,336 +1,384 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>The Comic Book Store</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css" />
     <style>
+      .search-bar {
+        display: flex;
+        align-items: center;
+        position: relative; /* Add this line */
+      }
+      .search-bar input[type="text"] {
+        width: 200px;
+        padding: 5px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+      .search-bar button {
+        padding: 5px 10px;
+        margin-left: 5px;
+        border: none;
+        background-color: #333;
+        color: white;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      .search-bar button:hover {
+        background-color: #555;
+      }
+      .suggestions {
+        position: absolute;
+        top: 35px;
+        left: 0; /* Change from right: 10px to left: 0 */
+        background-color: white;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        width: 200px;
+        max-height: 150px;
+        overflow-y: auto;
+        display: none;
+        z-index: 1; /* Add this line */
+      }
+      .suggestions li {
+        padding: 5px;
+        cursor: pointer;
+      }
+      .suggestions li:hover {
+        background-color: #f0f0f0;
+      }
+      .hamburger {
+        display: none;
+        flex-direction: column;
+        cursor: pointer;
+      }
+      .hamburger div {
+        width: 25px;
+        height: 3px;
+        background-color: #333;
+        margin: 4px 0;
+      }
+      @media (max-width: 768px) {
+        nav ul {
+          flex-direction: column;
+        }
         .search-bar {
-            display: flex;
-            align-items: center;
-            position: relative; /* Add this line */
+          width: 100%;
         }
         .search-bar input[type="text"] {
-            width: 200px;
-            padding: 5px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+          width: calc(100% - 80px);
         }
         .search-bar button {
-            padding: 5px 10px;
-            margin-left: 5px;
-            border: none;
-            background-color: #333;
-            color: white;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        .search-bar button:hover {
-            background-color: #555;
-        }
-        .suggestions {
-            position: absolute;
-            top: 35px;
-            left: 0; /* Change from right: 10px to left: 0 */
-            background-color: white;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            width: 200px;
-            max-height: 150px;
-            overflow-y: auto;
-            display: none;
-            z-index: 1; /* Add this line */
-        }
-        .suggestions li {
-            padding: 5px;
-            cursor: pointer;
-        }
-        .suggestions li:hover {
-            background-color: #f0f0f0;
+          width: 70px;
         }
         .hamburger {
-            display: none;
-            flex-direction: column;
-            cursor: pointer;
+          display: flex;
         }
-        .hamburger div {
-            width: 25px;
-            height: 3px;
-            background-color: #333;
-            margin: 4px 0;
+        nav ul {
+          display: none;
+          flex-direction: column;
+          width: 100%;
         }
-        @media (max-width: 768px) {
-            nav ul {
-                flex-direction: column;
-            }
-            .search-bar {
-                width: 100%;
-            }
-            .search-bar input[type="text"] {
-                width: calc(100% - 80px);
-            }
-            .search-bar button {
-                width: 70px;
-            }
-            .hamburger {
-                display: flex;
-            }
-            nav ul {
-                display: none;
-                flex-direction: column;
-                width: 100%;
-            }
-            nav ul.show {
-                display: flex;
-            }
-            .category-list, .product-list {
-                flex-direction: column;
-                align-items: center;
-            }
-            .product {
-                width: 100%;
-                max-width: 300px;
-                margin-bottom: 20px;
-            }
-            .hero, .categories, .featured-products {
-                padding: 0 10px;
-            }
+        nav ul.show {
+          display: flex;
         }
-        @media (max-width: 480px) {
-            .search-bar input[type="text"] {
-                width: calc(100% - 60px);
-            }
-            .search-bar button {
-                width: 50px;
-            }
-        }
-        .fade-in {
-            animation: fadeIn 1s ease-in-out;
-        }
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-        .slide-in {
-            animation: slideIn 1s ease-in-out;
-        }
-        @keyframes slideIn {
-            from {
-                transform: translateX(-100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
-        .fade-in-up {
-            animation: fadeInUp 0.5s ease-in-out;
-        }
-        @keyframes fadeInUp {
-            from {
-                transform: translateY(20px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
+        .category-list,
+        .product-list {
+          flex-direction: column;
+          align-items: center;
         }
         .product {
-            transition: transform 0.3s ease-in-out;
+          width: 100%;
+          max-width: 300px;
+          margin-bottom: 20px;
         }
-        .product:hover {
-            transform: scale(1.05);
+        .hero,
+        .categories,
+        .featured-products {
+          padding: 0 10px;
         }
+      }
+      @media (max-width: 480px) {
+        .search-bar input[type="text"] {
+          width: calc(100% - 60px);
+        }
+        .search-bar button {
+          width: 50px;
+        }
+      }
+      .fade-in {
+        animation: fadeIn 1s ease-in-out;
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+      .slide-in {
+        animation: slideIn 1s ease-in-out;
+      }
+      @keyframes slideIn {
+        from {
+          transform: translateX(-100%);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+      .fade-in-up {
+        animation: fadeInUp 0.5s ease-in-out;
+      }
+      @keyframes fadeInUp {
+        from {
+          transform: translateY(20px);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+      .product {
+        transition: transform 0.3s ease-in-out;
+      }
+      .product:hover {
+        transform: scale(1.05);
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <header class="fade-in">
-        <div class="logo">
-            <a href="/"><img src="new-logo-web.png" alt="The Comic Book Store Logo"></a>
-        </div>
-        <div class="hamburger" onclick="toggleMenu()">
-            <div></div>
-            <div></div>
-            <div></div>
-        </div>
-        <nav>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li class="dropdown">
-                    <a href="javascript:void(0)" class="dropbtn">Categories</a>
-                    <div class="dropdown-content">
-                        <a href="superheroes.html">Superheroes</a>
-                        <a href="manga.html">Manga</a>
-                        <a href="fantasy.html">Fantasy</a>
-                    </div>
-                </li>
-                <li><a href="cart.html">Cart</a></li>
-                <li><a href="wishlist.html">Wishlist</a></li>
-                <li class="search-bar">
-                    <form action="search.html" method="get">
-                        <input type="text" id="searchInput" name="query" placeholder="Search for books..." oninput="showSuggestions()">
-                        <button type="submit">Search</button>
-                        <ul class="suggestions" id="suggestionsList"></ul>
-                    </form>
-                </li>
-            </ul>
-        </nav>
+      <div class="logo">
+        <a href="/"
+          ><img src="new-logo-web.png" alt="The Comic Book Store Logo"
+        /></a>
+      </div>
+      <div class="hamburger" onclick="toggleMenu()">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li class="dropdown">
+            <a href="javascript:void(0)" class="dropbtn">Categories</a>
+            <div class="dropdown-content">
+              <a href="superheroes.html">Superheroes</a>
+              <a href="manga.html">Manga</a>
+              <a href="fantasy.html">Fantasy</a>
+            </div>
+          </li>
+          <li><a href="cart.html">Cart</a></li>
+          <li><a href="wishlist.html">Wishlist</a></li>
+          <li class="search-bar">
+            <form action="search.html" method="get">
+              <input
+                type="text"
+                id="searchInput"
+                name="query"
+                placeholder="Search for books..."
+                oninput="showSuggestions()"
+              />
+              <button type="submit">Search</button>
+              <ul class="suggestions" id="suggestionsList"></ul>
+            </form>
+          </li>
+        </ul>
+      </nav>
     </header>
 
     <main>
-        <section class="hero slide-in">
-            <h1>Welcome to The Comic Book Store</h1>
-            <p>Your one-stop destination for comics, manga, and more!</p>
-            <div class="slideshow-container">
-                <div class="mySlides fade">
-                    <img src="wallpaper1.jpg" alt="Hero Image 1">
-                </div>
-                <div class="mySlides fade">
-                    <img src="wallpaper2.jpg" alt="Hero Image 2">
-                </div>
-                <div class="mySlides fade">
-                    <img src="wallpaper3.jpg" alt="Hero Image 3">
-                </div>
-                <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-                <a class="next" onclick="plusSlides(1)">&#10095;</a>
-            <script>
-                function showSlides() {
-                    const slides = document.getElementsByClassName("mySlides");
-                    for (let i = 0; i < slides.length; i++) {
-                        slides[i].style.display = "none";
-                    }
-                    slideIndex++;
-                    if (slideIndex > slides.length) { slideIndex = 1 }
-                    slides[slideIndex - 1].style.display = "block";
-                    setTimeout(showSlides, 3000); // Change image every 2 seconds
-                }
+      <section class="hero slide-in">
+        <h1>Welcome to The Comic Book Store</h1>
+        <p>Your one-stop destination for comics, manga, and more!</p>
+        <div class="slideshow-container">
+          <div class="mySlides fade">
+            <img src="wallpaper1.jpg" alt="Hero Image 1" />
+          </div>
+          <div class="mySlides fade">
+            <img src="wallpaper2.jpg" alt="Hero Image 2" />
+          </div>
+          <div class="mySlides fade">
+            <img src="wallpaper3.jpg" alt="Hero Image 3" />
+          </div>
+          <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+          <a class="next" onclick="plusSlides(1)">&#10095;</a>
+          <script>
+            function showSlides() {
+              const slides = document.getElementsByClassName("mySlides");
+              for (let i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+              }
+              slideIndex++;
+              if (slideIndex > slides.length) {
+                slideIndex = 1;
+              }
+              slides[slideIndex - 1].style.display = "block";
+              setTimeout(showSlides, 3000); // Change image every 2 seconds
+            }
 
-                window.onload = function() {
-                    showSlides();
-                };
-            </script>
-            </div>
-        </section>
+            window.onload = function () {
+              showSlides();
+            };
+          </script>
+        </div>
+      </section>
 
-        <section class="categories fade-in">
-            <h2>Shop by Category</h2>
-            <div class="category-list">
-                <a href="superheroes.html">Superheroes</a>
-                <a href="manga.html">Manga</a>
-                <a href="fantasy.html">Fantasy</a>
-            </div>
-        </section>
+      <section class="categories fade-in">
+        <h2>Shop by Category</h2>
+        <div class="category-list">
+          <a href="superheroes.html">Superheroes</a>
+          <a href="manga.html">Manga</a>
+          <a href="fantasy.html">Fantasy</a>
+        </div>
+      </section>
 
-        <section class="featured-products fade-in">
-            <h2 style="text-align: center;">Featured Products</h2>
-            <div class="product-list">
-                <!-- Example product -->
-                <div class="product fade-in-up">
-                    <img src="One Piece, Vol. 107.jpg" alt="One Piece, Vol. 107">
-                    <div class="product-details">
-                        <h3>One Piece, Vol. 107</h3>
-                        <p class="price">Price: ₹500</p>
-                    </div>
-                    <a href="product1.html" class="btn">View Details</a>
-                    <button class="add-to-cart">Add to Cart</button>
-                    <button class="add-to-wishlist">Add to Wishlist</button>
-                </div>
-                <div class="product fade-in-up">
-                    <img src="Demon Slayer Kimetsu No Yaiba, Vol. 11.jpg" alt="Demon Slayer Kimetsu No Yaiba, Vol. 11">
-                    <div class="product-details">
-                        <h3>Demon Slayer Kimetsu No Yaiba, Vol. 11</h3>
-                        <p class="price">Price: ₹600</p>
-                    </div>
-                    <a href="product2.html" class="btn">View Details</a>
-                    <button class="add-to-cart">Add to Cart</button>
-                    <button class="add-to-wishlist">Add to Wishlist</button>
-                </div>
-                <div class="product fade-in-up">
-                    <img src="Harry Potter And The Goblet Of Fire.jpg" alt="Harry Potter And The Goblet Of Fire">
-                    <div class="product-details">
-                        <h3>Harry Potter And The Goblet Of Fire</h3>
-                        <p class="price">Price: ₹500</p>
-                    </div>
-                    <a href="product3.html" class="btn">View Details</a>
-                    <button class="add-to-cart">Add to Cart</button>
-                    <button class="add-to-wishlist">Add to Wishlist</button>
-                </div>
-                <div class="product fade-in-up">
-                    <img src="Absolute Batman Three JokersHC.jpg" alt="Absolute Batman Three Jokers HC">
-                    <div class="product-details">
-                        <h3>Absolute Batman Three Jokers HC</h3>
-                        <p class="price">Price: ₹700</p>
-                    </div>
-                    <a href="product4.html" class="btn">View Details</a>
-                    <button class="add-to-cart">Add to Cart</button>
-                    <button class="add-to-wishlist">Add to Wishlist</button>
-                </div>
+      <section class="featured-products fade-in">
+        <h2 style="text-align: center">Featured Products</h2>
+        <div class="product-list">
+          <!-- Example product -->
+          <div class="product fade-in-up">
+            <img src="One Piece, Vol. 107.jpg" alt="One Piece, Vol. 107" />
+            <div class="product-details">
+              <h3>One Piece, Vol. 107</h3>
+              <p class="price">Price: ₹500</p>
             </div>
-        </section>
+            <a href="product1.html" class="btn">View Details</a>
+            <button class="add-to-cart">Add to Cart</button>
+            <button class="add-to-wishlist">Add to Wishlist</button>
+          </div>
+          <div class="product fade-in-up">
+            <img
+              src="Demon Slayer Kimetsu No Yaiba, Vol. 11.jpg"
+              alt="Demon Slayer Kimetsu No Yaiba, Vol. 11"
+            />
+            <div class="product-details">
+              <h3>Demon Slayer Kimetsu No Yaiba, Vol. 11</h3>
+              <p class="price">Price: ₹600</p>
+            </div>
+            <a href="product2.html" class="btn">View Details</a>
+            <button class="add-to-cart">Add to Cart</button>
+            <button class="add-to-wishlist">Add to Wishlist</button>
+          </div>
+          <div class="product fade-in-up">
+            <img
+              src="Harry Potter And The Goblet Of Fire.jpg"
+              alt="Harry Potter And The Goblet Of Fire"
+            />
+            <div class="product-details">
+              <h3>Harry Potter And The Goblet Of Fire</h3>
+              <p class="price">Price: ₹500</p>
+            </div>
+            <a href="product3.html" class="btn">View Details</a>
+            <button class="add-to-cart">Add to Cart</button>
+            <button class="add-to-wishlist">Add to Wishlist</button>
+          </div>
+          <div class="product fade-in-up">
+            <img
+              src="Absolute Batman Three JokersHC.jpg"
+              alt="Absolute Batman Three Jokers HC"
+            />
+            <div class="product-details">
+              <h3>Absolute Batman Three Jokers HC</h3>
+              <p class="price">Price: ₹700</p>
+            </div>
+            <a href="product4.html" class="btn">View Details</a>
+            <button class="add-to-cart">Add to Cart</button>
+            <button class="add-to-wishlist">Add to Wishlist</button>
+          </div>
+        </div>
+      </section>
     </main>
 
     <footer>
-        <p>&copy; 2024 The Comic Book Store</p>
+      <p>&copy; 2024 The Comic Book Store</p>
     </footer>
 
     <script src="script.js"></script>
     <script>
-        const books = [
-            { title: "One Piece, Vol. 107", price: "₹500", image: "One Piece, Vol. 107.jpg", link: "product1.html" },
-            { title: "Demon Slayer Kimetsu No Yaiba, Vol. 11", price: "₹600", image: "Demon Slayer Kimetsu No Yaiba, Vol. 11.jpg", link: "product2.html" },
-            { title: "Harry Potter And The Goblet Of Fire", price: "₹500", image: "Harry Potter And The Goblet Of Fire.jpg", link: "product3.html" },
-            { title: "Absolute Batman Three Jokers HC", price: "₹700", image: "Absolute Batman Three JokersHC.jpg", link: "product4.html" },
-            // Add more books as needed
-        ];
+      const books = [
+        {
+          title: "One Piece, Vol. 107",
+          price: "₹500",
+          image: "One Piece, Vol. 107.jpg",
+          link: "product1.html",
+        },
+        {
+          title: "Demon Slayer Kimetsu No Yaiba, Vol. 11",
+          price: "₹600",
+          image: "Demon Slayer Kimetsu No Yaiba, Vol. 11.jpg",
+          link: "product2.html",
+        },
+        {
+          title: "Harry Potter And The Goblet Of Fire",
+          price: "₹500",
+          image: "Harry Potter And The Goblet Of Fire.jpg",
+          link: "product3.html",
+        },
+        {
+          title: "Absolute Batman Three Jokers HC",
+          price: "₹700",
+          image: "Absolute Batman Three JokersHC.jpg",
+          link: "product4.html",
+        },
+        // Add more books as needed
+      ];
 
-        function showSuggestions() {
-            const input = document.getElementById('searchInput').value.toLowerCase();
-            const suggestionsList = document.getElementById('suggestionsList');
-            suggestionsList.innerHTML = '';
-            if (input) {
-                const filteredBooks = books.filter(book => book.title.toLowerCase().includes(input));
-                filteredBooks.forEach(book => {
-                    const li = document.createElement('li');
-                    li.textContent = book.title;
-                    li.onclick = () => {
-                        document.getElementById('searchInput').value = book.title;
-                        suggestionsList.style.display = 'none';
-                    };
-                    suggestionsList.appendChild(li);
-                });
-                suggestionsList.style.display = 'block';
-            } else {
-                suggestionsList.style.display = 'none';
-            }
+      function showSuggestions() {
+        const input = document
+          .getElementById("searchInput")
+          .value.toLowerCase();
+        const suggestionsList = document.getElementById("suggestionsList");
+        suggestionsList.innerHTML = "";
+        if (input) {
+          const filteredBooks = books.filter((book) =>
+            book.title.toLowerCase().includes(input)
+          );
+          filteredBooks.forEach((book) => {
+            const li = document.createElement("li");
+            li.textContent = book.title;
+            li.onclick = () => {
+              document.getElementById("searchInput").value = book.title;
+              suggestionsList.style.display = "none";
+            };
+            suggestionsList.appendChild(li);
+          });
+          suggestionsList.style.display = "block";
+        } else {
+          suggestionsList.style.display = "none";
         }
+      }
 
-        function toggleMenu() {
-            const nav = document.querySelector('nav ul');
-            nav.classList.toggle('show');
+      function toggleMenu() {
+        const nav = document.querySelector("nav ul");
+        nav.classList.toggle("show");
+      }
+
+      let slideIndex = 0;
+      function showSlides() {
+        const slides = document.getElementsByClassName("mySlides");
+        for (let i = 0; i < slides.length; i++) {
+          slides[i].style.display = "none";
         }
-
-        let slideIndex = 0;
-        function showSlides() {
-            const slides = document.getElementsByClassName("mySlides");
-            for (let i = 0; i < slides.length; i++) {
-                slides[i].style.display = "none";
-            }
-            slideIndex++;
-            if (slideIndex > slides.length) { slideIndex = 1 }
-            slides[slideIndex - 1].style.display = "block";
-            setTimeout(showSlides, 3000); // Change image every 3 seconds
+        slideIndex++;
+        if (slideIndex > slides.length) {
+          slideIndex = 1;
         }
+        slides[slideIndex - 1].style.display = "block";
+        setTimeout(showSlides, 3000); // Change image every 3 seconds
+      }
 
-        window.onload = function() {
-            showSlides();
-        };
+      window.onload = function () {
+        showSlides();
+      };
     </script>
-</body>
+  </body>
 </html>
