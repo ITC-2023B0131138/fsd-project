@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manga - The Comic Book Store</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .fade-in {
+            animation: fadeIn 1s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        .slide-in {
+            animation: slideIn 1s ease-in-out;
+        }
+        @keyframes slideIn {
+            from {
+                transform: translateX(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="fade-in">
+        <div class="logo">
+            <a href="/"><img src="new-logo-web.png" alt="The Comic Book Store Logo"></a>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="wishlist.html">Wishlist</a></li>
+                <li><a href="cart.html">Cart</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="category slide-in">
+            <h2 style="text-align: center;">Manga</h2>
+            <div class="product-list">
+                <!-- Example product -->
+                <div class="product">
+                    <img src="Chainsaw Man, Vol. 2.jpg" alt="Chainsaw Man">
+                    <div class="product-details">
+                        <h3>Chainsaw Man, Vol. 2</h3>
+                        <p class="price">Price: ₹500</p>
+                    </div>
+                    <a href="manga1.html" class="btn">View Details</a>
+                    <button class="add-to-cart">Add to Cart</button>
+                    <button class="add-to-wishlist">Add to Wishlist</button>
+                </div>
+                <div class="product">
+                    <img src="Demon Slayer Kimetsu No Yaiba, Vol. 11.jpg" alt="Demon Slayer Kimetsu No Yaiba, Vol. 11">
+                    <div class="product-details">
+                        <h3>Demon Slayer Kimetsu No Yaiba, Vol. 11</h3>
+                        <p class="price">Price: ₹600</p>
+                    </div>
+                    <a href="manga2.html" class="btn">View Details</a>
+                    <button class="add-to-cart">Add to Cart</button>
+                    <button class="add-to-wishlist">Add to Wishlist</button>
+                </div>
+                <div class="product">
+                    <img src="Naruto  Itachi's Story, Vol. 1 Daylight.jpg" alt="Naruto: Itachi's Story, Vol. 1 Daylight">
+                    <div class="product-details">
+                        <h3>Naruto: Itachi's Story, Vol. 1 Daylight</h3>
+                        <p class="price">Price: ₹700</p>
+                    </div>
+                    <a href="manga3.html" class="btn">View Details</a>
+                    <button class="add-to-cart">Add to Cart</button>
+                    <button class="add-to-wishlist">Add to Wishlist</button>
+                </div>
+                <div class="product">
+                    <img src="Jujutsu Kaisen, Vol. 25.jpg" alt="Jujutsu Kaisen, Vol. 25">
+                    <div class="product-details">
+                        <h3>Jujutsu Kaisen, Vol. 25</h3>
+                        <p class="price">Price: ₹800</p>
+                    </div>
+                    <a href="manga4.html" class="btn">View Details</a>
+                    <button class="add-to-cart">Add to Cart</button>
+                    <button class="add-to-wishlist">Add to Wishlist</button>
+                </div>
+                <div class="product">
+                    <img src="Tokyo Ghoul, Vol. 7.jpg" alt="Tokyo Ghoul, Vol. 7">
+                    <div class="product-details">
+                        <h3>Tokyo Ghoul, Vol. 7</h3>
+                        <p class="price">Price: ₹900</p>
+                    </div>
+                    <a href="manga5.html" class="btn">View Details</a>
+                    <button class="add-to-cart">Add to Cart</button>
+                    <button class="add-to-wishlist">Add to Wishlist</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 The Comic Book Store</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
